@@ -1,0 +1,18 @@
+---
+version: "2.1"
+services:
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+      - PLEX_CLAIM= #optional
+    volumes:
+      - /data/config/plex:/config
+      - /data/tvshows:/tv
+      - /data/movies:/movies
+    restart: unless-stopped
