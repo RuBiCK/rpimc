@@ -11,16 +11,17 @@ services:
       - VERSION=docker
       - UMASK_SET=022 #optional
       - PLEX_CLAIM= #optional
+      - TZ=Europe/Madrid
     volumes:
       - /data/config/plex:/config
       - /data/tvshows:/tv
       - /data/movies:/movies
     restart: unless-stopped
+
   transmission:
     container_name: transmission
     image: dperson/transmission
     restart: unless-stopped
-    network_mode: host
     environment:
       - TZ=Europe/Madrid
       - TR_IDLE_SEEDING_LIMIT_ENABLED=true
@@ -34,9 +35,12 @@ services:
       - TR_PEX_ENABLED=false
       - USERID=1000
       - GROUPID=1000
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
     volumes:
       - /data/config/transmission:/var/lib/transmission-daemon/info
-      #set transmission or sonarr download folder to /downloads
       - /data/downloads/complete:/downloads
       - /data/downloads/temp:/var/lib/transmission-daemon/incomplete
 
