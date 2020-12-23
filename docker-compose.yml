@@ -1,8 +1,9 @@
+
 ---
 version: "2.1"
 services:
   plex:
-    image: ghcr.io/linuxserver/plex
+    image: linuxserver/plex:bionic
     container_name: plex
     network_mode: host
     environment:
@@ -20,7 +21,7 @@ services:
 
   transmission:
     container_name: transmission
-    image: dperson/transmission
+    image: linuxserver/transmission
     restart: unless-stopped
     environment:
       - TZ=Europe/Madrid
@@ -43,4 +44,19 @@ services:
       - /data/config/transmission:/var/lib/transmission-daemon/info
       - /data/downloads/complete:/downloads
       - /data/downloads/temp:/var/lib/transmission-daemon/incomplete
+  jackett:
+    container_name: jackett
+    image: linuxserver/jackett
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Madrid
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /data/config/jackett:/config
+      - /data/downloads:/downloads
+    ports:
+      - 9117:9117
+
+
 
